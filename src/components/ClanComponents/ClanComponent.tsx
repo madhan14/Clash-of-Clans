@@ -8,12 +8,12 @@ const ClanComponent: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     // const[playerName, setPlayerName] = useState(String);
     const[playerName, setPlayerName] = useState('');
-    const[playerRole, setPlayerRole] = useState(String);
-    const[playerTrophies, setPlayerTrophies] = useState(Number);
-    const[playerVTrophies, setPlayerVTrophies] = useState(Number);
-    const[playerLeague, setPlayerLeague] = useState(String);
-    const[playerExpLevel, setPlayerExpLevel] = useState(Number);
-    const[playerRank, setPlayerRank] = useState(Number);
+    const[playerRole, setPlayerRole] = useState('');
+    const[playerTrophies, setPlayerTrophies] = useState('');
+    const[playerVTrophies, setPlayerVTrophies] = useState('');
+    const[playerLeague, setPlayerLeague] = useState('');
+    const[playerExpLevel, setPlayerExpLevel] = useState('');
+    const[playerRank, setPlayerRank] = useState('');
 
     const showModal = () => {
         setIsModalOpen(true);
@@ -27,7 +27,17 @@ const ClanComponent: React.FC = () => {
         setIsModalOpen(false);
     };
 
-    const setPlayer = (element) => {
+    const removePlayer = () => {
+        setPlayerName('');
+        setPlayerRole('');
+        setPlayerTrophies('');
+        setPlayerVTrophies('');
+        setPlayerLeague('');
+        setPlayerExpLevel('');
+        setPlayerRank('');
+    }
+
+    const setPlayer = (element: any) => {
         setPlayerName(element.name);
         setPlayerRole(element.role);
         setPlayerTrophies(element.trophies);
@@ -70,6 +80,7 @@ const ClanComponent: React.FC = () => {
                                     <a 
                                         href="#"
                                         onClick={()=> {
+                                            removePlayer();
                                             setPlayer(element);
                                         }} 
                                         key={key} 
@@ -90,6 +101,7 @@ const ClanComponent: React.FC = () => {
                                     <a 
                                         href="#"
                                         onClick={()=> {
+                                            removePlayer();
                                             setPlayer(element);
                                         }}
                                         key={key} 
@@ -110,6 +122,7 @@ const ClanComponent: React.FC = () => {
                                     <a 
                                         href="#"
                                         onClick={()=> {
+                                            removePlayer();
                                             setPlayer(element);
                                         }}
                                         key={key} 
@@ -130,6 +143,7 @@ const ClanComponent: React.FC = () => {
                                     <a 
                                         href="#"
                                         onClick={()=> {
+                                            removePlayer();
                                             setPlayer(element);
                                         }}
                                         key={key} 
