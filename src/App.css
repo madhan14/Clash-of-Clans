@@ -28,6 +28,18 @@
   color: #61dafb;
 }
 
+body{
+  /* background: url(https://developer.clashofclans.com/front-bg-small.d355db.jpg); */
+  background-position-x: 0px;
+  background-position-y: center;
+  background-size: cover;
+  background-attachment: initial;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: initial;
+  background-repeat: initial;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
