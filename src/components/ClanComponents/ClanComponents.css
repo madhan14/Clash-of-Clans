@@ -1,0 +1,15 @@
+.flex{
+    display: flex;
+    flex-direction: row;
+    row-gap: 2rem;
+    column-gap: 2rem;
+}
+
+.ClanName, .location{
+    justify-content: center;
+    align-items: center;
+}
+
+.container{
+    margin: 25px;
+}

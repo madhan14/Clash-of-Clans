@@ -5,6 +5,7 @@ const LoginComponent: React.FC = () => {
 
     const onFinish = (values: any) => {
         console.log(values);
+        window.location.href = '/clan';
     };
     
     const onFinishFailed = (errorInfo: any) => {
