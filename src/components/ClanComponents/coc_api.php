@@ -1,5 +1,7 @@
 <?php
-header("Access-Control-Allow-Origin: *");
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, X-Requested-With");
 $rest_json = file_get_contents("php://input");
 $_POST = json_decode($rest_json, true);
 
@@ -11,13 +13,12 @@ if ($_POST){
 
 	http_response_code(200);
 
-    $clanID = $_POST['ClanID'];
     $playerID = $_POST['PlayerID'];
 
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
-    CURLOPT_URL => 'https://api.clashofclans.com/v1/clans/%23C08Y0GRC',
+    CURLOPT_URL => 'https://api.clashofclans.com/v1/players/%23'.$playerID,
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => '',
     CURLOPT_MAXREDIRS => 10,
@@ -36,9 +37,9 @@ if ($_POST){
     echo $response;
 
 
-	echo json_encode(array(
-		"sent" => true
-	));
+	// echo json_encode(array(
+	// 	"sent" => true
+	// ));
 } else {
 
 	// tell the user about error
