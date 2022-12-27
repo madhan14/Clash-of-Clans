@@ -11,7 +11,7 @@ function App() {
       <Routes>
           <Route path='/' element={<LoginComponents />} />
           <Route path='/clan' element={<ClanComponent />} />
-          <Route path='/clan' element={<PlayerComponent />} />
+          <Route path='/player' element={<PlayerComponent />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,12 +1,20 @@
 import React from 'react';
 import { Button, Form, Input, Modal } from 'antd';
-import axios from 'axios';
+import { createSearchParams, useNavigate } from "react-router-dom";
+// import axios from 'axios';
 
 const LoginComponent: React.FC = () => {
+    
+    const navigate = useNavigate();
 
     const onFinish = (values: any) => {
         console.log(values);
-        window.location.href = '/clan';
+        navigate({
+            pathname: '/player',
+            search: createSearchParams({
+                id: values.playerID
+            }).toString()
+        })
     };
     
     const onFinishFailed = (errorInfo: any) => {
@@ -22,13 +30,13 @@ const LoginComponent: React.FC = () => {
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                 >
-                    <Form.Item
+                    {/* <Form.Item
                         name='clanID'
                         label='Clan ID: '
                         rules={[{ required: true, message: 'This field is required!' }]}
                     >
                         <Input />
-                    </Form.Item>
+                    </Form.Item> */}
                     <Form.Item
                         name='playerID'
                         label='Player ID: '
@@ -36,13 +44,13 @@ const LoginComponent: React.FC = () => {
                     >
                         <Input />
                     </Form.Item>
-                    <Form.Item
+                    {/* <Form.Item
                         name='apiKey'
                         label='API Key: '
                         rules={[{ required: true, message: 'This field is required!' }]}
                     >
                         <Input />
-                    </Form.Item>
+                    </Form.Item> */}
                     <Form.Item>
                         <Button type="primary" htmlType="submit">
                             Submit
