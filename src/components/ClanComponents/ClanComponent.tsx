@@ -234,7 +234,6 @@ const Player: React.FC = () => {
                 "ClanID": clanID?.split('#')[1]
             })
             .then((response) => {
-                console.log(response.data);
                 setClan(response.data);
             })
             // eslint-disable-next-line
