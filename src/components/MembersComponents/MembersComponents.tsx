@@ -210,10 +210,9 @@ const Members: React.FC = () => {
     useEffect(() =>{
         axios
             .post(env.API_PATH, {
-                "PlayerID": searchParams.get('member')?.split('#')[1]
+                "PlayerID": searchParams.get('member')
             })
             .then((response) => {
-                localStorage.setItem('clanID', response.data.clan.tag);
                 setPlayer(response.data);
             })
             // eslint-disable-next-line

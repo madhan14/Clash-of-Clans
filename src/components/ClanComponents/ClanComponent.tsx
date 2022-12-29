@@ -29,12 +29,13 @@ const Player: React.FC = () => {
     ];
       
     const clanMember = (props: any) => {
+        var member_id = props.innerHTML.split('#')[1];
         navigate({
             pathname: '/clanMember',
             search: createSearchParams({
-                'member': props.innerHTML,
+                'member': member_id,
             }).toString()
-        })
+        });
     }
     const contentList: Record<any, React.ReactNode> = {
         'About Clan': <Table 
