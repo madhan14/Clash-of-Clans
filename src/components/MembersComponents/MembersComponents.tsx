@@ -1,12 +1,14 @@
 import { Card, Table } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import './PlayerComponent.css';
+import './MembersComponents.css';
+import { useSearchParams } from "react-router-dom";
 import { env } from "../../environment/environment";
 
-const Player: React.FC = () => {
+const Members: React.FC = () => {
     const [player, setPlayer] = useState<any>();
     const [activeTabKey, setActiveTabKey] = useState<string>('About You');
+    const [searchParams] = useSearchParams();
 
     const tabList = [
         {
@@ -208,12 +210,13 @@ const Player: React.FC = () => {
     useEffect(() =>{
         axios
             .post(env.API_PATH, {
-                "PlayerID": localStorage.getItem('playerID')
+                "PlayerID": searchParams.get('member')?.split('#')[1]
             })
             .then((response) => {
-                localStorage.setItem('clanID', response.data?.clan.tag);
+                localStorage.setItem('clanID', response.data.clan.tag);
                 setPlayer(response.data);
             })
+            // eslint-disable-next-line
     }, [])
 
     return(
@@ -235,4 +238,4 @@ const Player: React.FC = () => {
 
 };
 
-export default Player;
+export default Members;

@@ -1,206 +1,230 @@
 import { Card, Table } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { createSearchParams, useNavigate } from "react-router-dom";
 import { env } from "../../environment/environment";
 
 const Player: React.FC = () => {
-    const [player, setPlayer] = useState<any>();
-    const [activeTabKey, setActiveTabKey] = useState<string>('Me');
+    const [clan, setClan] = useState<any>();
+    const [activeTabKey, setActiveTabKey] = useState<string>('About Clan');
     const clanID = localStorage.getItem('clanID');
+    const navigate = useNavigate();
     const tabList = [
         {
-          key: 'Me',
-          tab: 'Me',
+          key: 'About Clan',
+          tab: 'About Clan',
         },
         {
-          key: 'Achievements',
-          tab: 'Achievements',
+          key: 'Clan Capital',
+          tab: 'Clan Capital',
         },
         {
-          key: 'Heroes',
-          tab: 'Heroes',
+          key: 'Clan Members',
+          tab: 'Clan Members',
         },
         {
-          key: 'Troops',
-          tab: 'Troops',
-        },
-        {
-          key: 'Spells',
-          tab: 'Spells',
+          key: 'Clan War',
+          tab: 'Clan War',
         },
     ];
       
+    const clanMember = (props: any) => {
+        navigate({
+            pathname: '/clanMember',
+            search: createSearchParams({
+                'member': props.innerHTML,
+            }).toString()
+        })
+    }
     const contentList: Record<any, React.ReactNode> = {
-        Me: <Table 
-                dataSource={[
-                    {
-                    key: '1',
-                    name: 'Name',
-                    value: player?.name,
-                    },
-                    {
-                    key: '2',
-                    name: 'Role',
-                    value: String(player?.role).toUpperCase(),
-                    },
-                    {
-                    key: '3',
-                    name: 'Experience Level',
-                    value: player?.expLevel,
-                    },
-                    {
-                    key: '4',
-                    name: 'Town Hall',
-                    value: player?.townHallLevel,
-                    },
-                    {
-                    key: '5',
-                    name: 'League',
-                    value: player?.league.name,
-                    },
-                    {
-                    key: '6',
-                    name: 'Heighest Town Hall Trophies',
-                    value: player?.bestTrophies,
-                    },
-                    {
-                    key: '7',
-                    name: 'Current Town Hall Trophies',
-                    value: player?.trophies,
-                    },
-                    {
-                    key: '8',
-                    name: 'Builder Hall',
-                    value: player?.builderHallLevel,
-                    },
-                    {
-                    key: '9',
-                    name: 'Heighest Builder Hall Trophies',
-                    value: player?.bestVersusTrophies,
-                    },
-                    {
-                    key: '10',
-                    name: 'Current Builder Hall Trophies',
-                    value: player?.versusTrophies,
-                    },
-                    {
-                    key: '11',
-                    name: 'Clan Capital Contributions',
-                    value: player?.clanCapitalContributions,
-                    },
-                    {
-                    key: '12',
-                    name: 'Clan Name',
-                    value: player?.clan.name,
-                    },
-                    {
-                    key: '13',
-                    name: 'Clan Level',
-                    value: player?.clan.clanLevel,
-                    },
-                ]}
-
-                columns={[
-                    {
-                      title: 'Name',
-                      dataIndex: 'name',
-                      key: 'name',
-                    },
-                    {
-                      title: 'Value',
-                      dataIndex: 'value',
-                      key: 'value',
-                    },
-                ]}
-            />,
-        Achievements: <Table
-                        dataSource={player?.achievements}
-                        columns = {[
+        'About Clan': <Table 
+                        dataSource={[
                             {
-                                title: 'Achievement Name',
-                                dataIndex: 'name',
-                                key: 'name'
+                                key: '1',
+                                name: 'Name',
+                                value: clan?.name,
                             },
                             {
-                                title: 'Achievement Info',
-                                dataIndex: 'info',
-                                key: 'info'
+                                key: '2',
+                                name: 'Description',
+                                value: clan?.description,
                             },
                             {
-                                title: 'Stars',
-                                dataIndex: 'stars',
-                                key: 'stars'
+                                key: '3',
+                                name: 'Location',
+                                value: clan?.location.name,
                             },
                             {
-                                title: 'Village',
-                                dataIndex: 'village',
-                                key: 'village'
-                            }
+                                key: '4',
+                                name: 'Clan Level',
+                                value: clan?.clanLevel,
+                            },
+                            {
+                                key: '5',
+                                name: 'Clan Points',
+                                value: clan?.clanPoints,
+                            },
+                            {
+                                key: '6',
+                                name: 'Clan Versus Points',
+                                value: clan?.clanVersusPoints,
+                            },
+                            {
+                                key: '7',
+                                name: 'Join type',
+                                value: clan?.type,
+                            },
+                            {
+                                key: '8',
+                                name: 'Required Towh Hall Level to join',
+                                value: clan?.requiredTownhallLevel,
+                            },
+                            {
+                                key: '9',
+                                name: 'Required Trophies to join',
+                                value: clan?.requiredTrophies,
+                            },
+                            {
+                                key: '10',
+                                name: 'Required Versus Trophies Level to join',
+                                value: clan?.requiredVersusTrophies,
+                            },
+                        ]}
+                        columns={[
+                            {
+                              title: 'Name',
+                              dataIndex: 'name',
+                              key: 'name',
+                            },
+                            {
+                              title: 'Value',
+                              dataIndex: 'value',
+                              key: 'value',
+                            },
                         ]}
                       />,
-        Heroes: <Table
-                    dataSource={player?.heroes}
-                    columns= {[
-                        {
-                            title: 'Hero Name',
+        'Clan Capital': <div>
+                            <Table 
+                                dataSource={[
+                                    {
+                                        key: '1',
+                                        name: 'Capital Hall Level',
+                                        value: clan?.clanCapital.capitalHallLevel,
+                                    },
+                                    {
+                                        key: '2',
+                                        name: 'Capital Points',
+                                        value: clan?.clanCapitalPoints,
+                                    },
+                                    {
+                                        key: '3',
+                                        name: 'Capital League',
+                                        value: clan?.capitalLeague.name,
+                                    },
+                                ]}
+                                columns={[
+                                    {
+                                        title: 'Name',
+                                        dataIndex: 'name',
+                                        key: 'name',
+                                    },
+                                    {
+                                        title: 'Value',
+                                        dataIndex: 'value',
+                                        key: 'value',
+                                    }
+                                ]}
+                            />
+                            <Table 
+                                dataSource={clan?.clanCapital.districts}
+                                columns={[
+                                    {
+                                        title: 'Districts',
+                                        dataIndex: 'name',
+                                        key: 'name',
+                                    },
+                                    {
+                                        title: 'Level',
+                                        dataIndex: 'districtHallLevel',
+                                        key: 'value',
+                                    }
+                                ]}
+                            />
+                        </div>,
+        'Clan Members': <Table
+                            dataSource={clan?.memberList}
+                            columns= {[
+                                {
+                                    title: 'Name',
+                                    dataIndex: 'name',
+                                    key: 'name',
+                                },
+                                {
+                                    title: 'Player Tag',
+                                    dataIndex: 'tag',
+                                    render: (text: string)=> <a href={text} onClick={(e) => clanMember(e.target)}>{text}</a>,
+                                    key: 'name',
+                                },
+                                {
+                                    title: 'Role',
+                                    dataIndex: 'role',
+                                    key: 'role',
+                                },
+                                {
+                                    title: 'Experience',
+                                    dataIndex: 'expLevel',
+                                    key: 'expLevel',
+                                },
+                                {
+                                    title: 'Trophies',
+                                    dataIndex: 'trophies',
+                                    key: 'trophies',
+                                },
+                                {
+                                    title: 'Versus Trophies',
+                                    dataIndex: 'versusTrophies',
+                                    key: 'versusTrophies',
+                                },
+                                {
+                                    title: '',
+                                    key: '',
+                                }
+                            ]}
+                        />,
+        'Clan War': <Table 
+                        dataSource={[
+                            {
+                                key: '1',
+                                name: 'War League',
+                                value: clan?.warLeague.name,
+                            },
+                            {
+                                key: '2',
+                                name: 'War wins',
+                                value: clan?.warWins,
+                            },
+                            {
+                                key: '3',
+                                name: 'War loses',
+                                value: clan?.warLosses,
+                            }
+                        ]}
+                        columns={[
+                            {
+                            title: 'Name',
                             dataIndex: 'name',
-                            key: 'name'
-                        },
-                        {
-                            title: 'Level',
-                            dataIndex: 'level',
-                            key: 'level'
-                        },
-                        {
-                            title: 'Base',
-                            dataIndex: 'village',
-                            key: 'village'
-                        }
-                    ]}
-                />,
-        Troops: <Table 
-                    dataSource={player?.troops}
-                    columns= {[
-                        {
-                            title: 'Troop Name',
-                            dataIndex: 'name',
-                            key: 'name'
-                        },
-                        {
-                            title: 'Level',
-                            dataIndex: 'level',
-                            key: 'level'
-                        },
-                        {
-                            title: 'Base',
-                            dataIndex: 'village',
-                            key: 'village'
-                        }
-                    ]}
-                />,
-        Spells: <Table 
-                    dataSource={player?.spells}
-                    columns= {[
-                        {
-                            title: 'Spell Name',
-                            dataIndex:'name',
-                            key:'name'
-                        },
-                        {
-                            title: 'Level',
-                            dataIndex: 'level',
-                            key: 'level'
-                        },
-                        {
-                            title: 'Base',
-                            dataIndex: 'village',
-                            key: 'village'
-                        }
-                    ]}
-                />,
+                            key: 'name',
+                            },
+                            {
+                            title: 'Value',
+                            dataIndex: 'value',
+                            key: 'value',
+                            },
+                        ]}
+                    />,
     };
     
-    const onTab1Change = (key: string) => {
+    const onTabChange = (key: string) => {
         setActiveTabKey(key);
     };
 
@@ -210,22 +234,23 @@ const Player: React.FC = () => {
                 "ClanID": clanID?.split('#')[1]
             })
             .then((response) => {
-                console.log(response.data)
-                // setPlayer(response.data);
+                console.log(response.data);
+                setClan(response.data);
             })
+            // eslint-disable-next-line
     }, [])
 
     return(
         <>
             <Card
                 style={{ width: '100%' }}
-                title="Player"
+                title={clan?.name}
                 tabList={tabList}
                 activeTabKey={activeTabKey}
                 onTabChange={(key) => {
-                    onTab1Change(key);
+                    onTabChange(key);
                 }}
-                extra={<a href="/clan">Clan</a>}
+                extra={<a href="/player">About you</a>}
             >
                 {contentList[activeTabKey]}
             </Card>

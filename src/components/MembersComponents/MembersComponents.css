@@ -1,0 +1,22 @@
+.flex{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.player_values{
+    font-weight: normal;
+}
+
+.w2{
+    width: 50%;
+}
+
+table{
+    width: 100%;
+}
+
+th, td{
+    text-align: left;
+}
