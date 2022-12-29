@@ -1,22 +1,16 @@
 import React from 'react';
 import { Button, Form, Input, Modal } from 'antd';
-// import { createSearchParams, useNavigate } from "react-router-dom";
-// import axios from 'axios';
 
 const LoginComponent: React.FC = () => {
-    
-    // const navigate = useNavigate();
+
+    if(localStorage.getItem('playerID')){
+        window.location.href = '/player';
+    }
 
     const onFinish = (values: any) => {
         console.log(values);
         localStorage.setItem('playerID', values.playerID);
         window.location.href = '/player';
-        // navigate({
-        //     pathname: '/player',
-        //     search: createSearchParams({
-        //         id: values.playerID
-        //     }).toString()
-        // })
     };
     
     const onFinishFailed = (errorInfo: any) => {

@@ -1,174 +1,237 @@
-import { Form, Input, Modal } from "antd";
-import { ArrowRightOutlined } from '@ant-design/icons';
-import React, { useState } from "react";
-import { clanData } from "./clan";
-import './ClanComponents.css'
+import { Card, Table } from "antd";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { env } from "../../environment/environment";
 
-const ClanComponent: React.FC = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    // const[playerName, setPlayerName] = useState(String);
-    const[playerName, setPlayerName] = useState('');
-    const[playerRole, setPlayerRole] = useState('');
-    const[playerTrophies, setPlayerTrophies] = useState('');
-    const[playerVTrophies, setPlayerVTrophies] = useState('');
-    const[playerLeague, setPlayerLeague] = useState('');
-    const[playerExpLevel, setPlayerExpLevel] = useState('');
-    const[playerRank, setPlayerRank] = useState('');
+const Player: React.FC = () => {
+    const [player, setPlayer] = useState<any>();
+    const [activeTabKey, setActiveTabKey] = useState<string>('Me');
+    const clanID = localStorage.getItem('clanID');
+    const tabList = [
+        {
+          key: 'Me',
+          tab: 'Me',
+        },
+        {
+          key: 'Achievements',
+          tab: 'Achievements',
+        },
+        {
+          key: 'Heroes',
+          tab: 'Heroes',
+        },
+        {
+          key: 'Troops',
+          tab: 'Troops',
+        },
+        {
+          key: 'Spells',
+          tab: 'Spells',
+        },
+    ];
+      
+    const contentList: Record<any, React.ReactNode> = {
+        Me: <Table 
+                dataSource={[
+                    {
+                    key: '1',
+                    name: 'Name',
+                    value: player?.name,
+                    },
+                    {
+                    key: '2',
+                    name: 'Role',
+                    value: String(player?.role).toUpperCase(),
+                    },
+                    {
+                    key: '3',
+                    name: 'Experience Level',
+                    value: player?.expLevel,
+                    },
+                    {
+                    key: '4',
+                    name: 'Town Hall',
+                    value: player?.townHallLevel,
+                    },
+                    {
+                    key: '5',
+                    name: 'League',
+                    value: player?.league.name,
+                    },
+                    {
+                    key: '6',
+                    name: 'Heighest Town Hall Trophies',
+                    value: player?.bestTrophies,
+                    },
+                    {
+                    key: '7',
+                    name: 'Current Town Hall Trophies',
+                    value: player?.trophies,
+                    },
+                    {
+                    key: '8',
+                    name: 'Builder Hall',
+                    value: player?.builderHallLevel,
+                    },
+                    {
+                    key: '9',
+                    name: 'Heighest Builder Hall Trophies',
+                    value: player?.bestVersusTrophies,
+                    },
+                    {
+                    key: '10',
+                    name: 'Current Builder Hall Trophies',
+                    value: player?.versusTrophies,
+                    },
+                    {
+                    key: '11',
+                    name: 'Clan Capital Contributions',
+                    value: player?.clanCapitalContributions,
+                    },
+                    {
+                    key: '12',
+                    name: 'Clan Name',
+                    value: player?.clan.name,
+                    },
+                    {
+                    key: '13',
+                    name: 'Clan Level',
+                    value: player?.clan.clanLevel,
+                    },
+                ]}
 
-    const showModal = () => {
-        setIsModalOpen(true);
+                columns={[
+                    {
+                      title: 'Name',
+                      dataIndex: 'name',
+                      key: 'name',
+                    },
+                    {
+                      title: 'Value',
+                      dataIndex: 'value',
+                      key: 'value',
+                    },
+                ]}
+            />,
+        Achievements: <Table
+                        dataSource={player?.achievements}
+                        columns = {[
+                            {
+                                title: 'Achievement Name',
+                                dataIndex: 'name',
+                                key: 'name'
+                            },
+                            {
+                                title: 'Achievement Info',
+                                dataIndex: 'info',
+                                key: 'info'
+                            },
+                            {
+                                title: 'Stars',
+                                dataIndex: 'stars',
+                                key: 'stars'
+                            },
+                            {
+                                title: 'Village',
+                                dataIndex: 'village',
+                                key: 'village'
+                            }
+                        ]}
+                      />,
+        Heroes: <Table
+                    dataSource={player?.heroes}
+                    columns= {[
+                        {
+                            title: 'Hero Name',
+                            dataIndex: 'name',
+                            key: 'name'
+                        },
+                        {
+                            title: 'Level',
+                            dataIndex: 'level',
+                            key: 'level'
+                        },
+                        {
+                            title: 'Base',
+                            dataIndex: 'village',
+                            key: 'village'
+                        }
+                    ]}
+                />,
+        Troops: <Table 
+                    dataSource={player?.troops}
+                    columns= {[
+                        {
+                            title: 'Troop Name',
+                            dataIndex: 'name',
+                            key: 'name'
+                        },
+                        {
+                            title: 'Level',
+                            dataIndex: 'level',
+                            key: 'level'
+                        },
+                        {
+                            title: 'Base',
+                            dataIndex: 'village',
+                            key: 'village'
+                        }
+                    ]}
+                />,
+        Spells: <Table 
+                    dataSource={player?.spells}
+                    columns= {[
+                        {
+                            title: 'Spell Name',
+                            dataIndex:'name',
+                            key:'name'
+                        },
+                        {
+                            title: 'Level',
+                            dataIndex: 'level',
+                            key: 'level'
+                        },
+                        {
+                            title: 'Base',
+                            dataIndex: 'village',
+                            key: 'village'
+                        }
+                    ]}
+                />,
     };
     
-    const handleOk = () => {
-        setIsModalOpen(false);
+    const onTab1Change = (key: string) => {
+        setActiveTabKey(key);
     };
 
-    const handleCancel = () => {
-        setIsModalOpen(false);
-    };
+    useEffect(() =>{
+        axios
+            .post(env.API_PATH, {
+                "ClanID": clanID?.split('#')[1]
+            })
+            .then((response) => {
+                console.log(response.data)
+                // setPlayer(response.data);
+            })
+    }, [])
 
-    const removePlayer = () => {
-        setPlayerName('');
-        setPlayerRole('');
-        setPlayerTrophies('');
-        setPlayerVTrophies('');
-        setPlayerLeague('');
-        setPlayerExpLevel('');
-        setPlayerRank('');
-    }
-
-    const setPlayer = (element: any) => {
-        setPlayerName(element.name);
-        setPlayerRole(element.role);
-        setPlayerTrophies(element.trophies);
-        setPlayerVTrophies(element.versusTrophies);
-        setPlayerLeague(element.league.name);
-        setPlayerExpLevel(element.expLevel);
-        setPlayerRank(element.clanRank);
-        showModal();
-    }
-
-    // console.log(clanData);
-    return (
+    return(
         <>
-            <div className="transparent">
-                <Form 
-                    name="Clan Detail"
-                    labelCol={{ span: 8 }}
-                    wrapperCol={{ span: 16 }}
-                >
-                    <label><h3>Clan</h3></label>
-                    <Input addonBefore="Clan name" defaultValue={clanData.name} readOnly={true} />
-                    <Input addonBefore="Clan description" defaultValue={clanData.description} readOnly={true} />
-                    <Input addonBefore="Location" defaultValue={clanData.location.name} readOnly={true} />
-                    <Input addonBefore="Join type" defaultValue={clanData.type} readOnly={true} />
-                    <Input addonBefore="Required TownHall to join" defaultValue={clanData.requiredTownhallLevel} readOnly={true} />
-                    <Input addonBefore="Required trophies to join" defaultValue={clanData.requiredTrophies} readOnly={true} />
-                    <Input addonBefore="Level" defaultValue={clanData.clanLevel} readOnly={true} />
-                    <Input addonBefore="Points" defaultValue={clanData.clanPoints} readOnly={true} />
-                    <label><h3>Wars</h3></label>
-                    <Input addonBefore="War league" defaultValue={clanData.warLeague.name} readOnly={true} />
-                    <Input addonBefore="War frequency" defaultValue={clanData.warFrequency} readOnly={true} />
-                    <Input addonBefore="Total war winned" defaultValue={clanData.warWins} readOnly={true} />
-                    <label><h3>Members</h3></label>
-                    <Input addonBefore="Total members" defaultValue={clanData.members} readOnly={true} />
-                    <label><h3>Leader</h3></label>
-                    {
-                        clanData.memberList.map((element, key) => {
-                            if(element.role === 'leader'){
-                                return(
-                                    <a 
-                                        href="#"
-                                        onClick={()=> {
-                                            removePlayer();
-                                            setPlayer(element);
-                                        }} 
-                                        key={key} 
-                                        className="playerLink"
-                                    >
-                                        <p> {element.name} </p>
-                                        <ArrowRightOutlined style={{ color: 'blue' }}/>
-                                    </a>
-                                );
-                            }
-                        })
-                    }
-                    <label><h3>Co-Leader</h3></label>
-                    {
-                        clanData.memberList.map((element, key) => {
-                            if(element.role === 'coLeader'){
-                                return(
-                                    <a 
-                                        href="#"
-                                        onClick={()=> {
-                                            removePlayer();
-                                            setPlayer(element);
-                                        }}
-                                        key={key} 
-                                        className="playerLink"
-                                    >
-                                        <p> {element.name} </p>
-                                        <ArrowRightOutlined style={{ color: 'blue' }}/>
-                                    </a>
-                                );
-                            }
-                        })
-                    }
-                    <label><h3>Admin</h3></label>
-                    {
-                        clanData.memberList.map((element, key) => {
-                            if(element.role === 'admin'){
-                                return(
-                                    <a 
-                                        href="#"
-                                        onClick={()=> {
-                                            removePlayer();
-                                            setPlayer(element);
-                                        }}
-                                        key={key} 
-                                        className="playerLink"
-                                    >
-                                        <p> {element.name} </p>
-                                        <ArrowRightOutlined style={{ color: 'blue' }}/>
-                                    </a>
-                                );
-                            }
-                        })
-                    }
-                    <label><h3>Member</h3></label>
-                    {
-                        clanData.memberList.map((element, key) => {
-                            if(element.role === 'member'){
-                                return(
-                                    <a 
-                                        href="#"
-                                        onClick={()=> {
-                                            removePlayer();
-                                            setPlayer(element);
-                                        }}
-                                        key={key} 
-                                        className="playerLink"
-                                    >
-                                        <p> {element.name} </p>
-                                        <ArrowRightOutlined style={{ color: 'blue' }}/>
-                                    </a>
-                                );
-                            }
-                        })
-                    }
-                    <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                        <Input addonBefore="Name" defaultValue={playerName} readOnly={true} />
-                        <Input addonBefore="Role" defaultValue={playerRole} readOnly={true} />
-                        <Input addonBefore="Trophies" defaultValue={playerTrophies} readOnly={true} />
-                        <Input addonBefore="Versus trophies" defaultValue={playerVTrophies} readOnly={true} />
-                        <Input addonBefore="League" defaultValue={playerLeague} readOnly={true} />
-                        <Input addonBefore="EXP Level" defaultValue={playerExpLevel} readOnly={true} />
-                        <Input addonBefore="Clan rank" defaultValue={playerRank} readOnly={true} />
-                    </Modal>
-                </Form>
-            </div>
+            <Card
+                style={{ width: '100%' }}
+                title="Player"
+                tabList={tabList}
+                activeTabKey={activeTabKey}
+                onTabChange={(key) => {
+                    onTab1Change(key);
+                }}
+                extra={<a href="/clan">Clan</a>}
+            >
+                {contentList[activeTabKey]}
+            </Card>
         </>
     );
-}
 
-export default ClanComponent;
+};
+
+export default Player;

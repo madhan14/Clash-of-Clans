@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginComponents from './components/LoginComponents/LoginComponents.tsx';
 import ClanComponent from './components/ClanComponents/ClanComponent.tsx';
 import PlayerComponent from './components/PlayerComponent/PlayerComponent.tsx';
-import Player from './components/PlayerComponent/Player.tsx';
 
 function App() {
   return (
@@ -13,7 +12,6 @@ function App() {
           <Route path='/' element={<LoginComponents />} />
           <Route path='/clan' element={<ClanComponent />} />
           <Route path='/player' element={<PlayerComponent />} />
-          <Route path='/players' element={<Player />} />
       </Routes>
     </BrowserRouter>
   );

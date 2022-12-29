@@ -12,13 +12,17 @@ if ($_POST){
 	// set response code - 200 OK
 
 	http_response_code(200);
-
+    if($_POST['ClanID']){
+        $url = 'https://api.clashofclans.com/v1/clans/%23'.$_POST['ClanID'];
+    } else {
+        $url = 'https://api.clashofclans.com/v1/players/%23'.$_POST['PlayerID'];
+    }
     $playerID = $_POST['PlayerID'];
 
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
-    CURLOPT_URL => 'https://api.clashofclans.com/v1/players/%23'.$playerID,
+    CURLOPT_URL => $url,
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => '',
     CURLOPT_MAXREDIRS => 10,
@@ -34,7 +38,11 @@ if ($_POST){
     $response = curl_exec($curl);
 
     curl_close($curl);
-    echo $response;
+    // if($_POST['ClanID']){
+    //     echo json_encode($_POST);
+    // }else{
+        echo $response;
+    // }
 
 
 	// echo json_encode(array(
