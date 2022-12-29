@@ -17,7 +17,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 ### `Backend`
 
-This has core php backend which is available in the Backend folder.
+This project has core php backend which is available in the Backend folder.
 
 ## Learn More
 
