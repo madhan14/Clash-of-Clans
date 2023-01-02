@@ -10,10 +10,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-          <Route path='/' element={<LoginComponents />} />
-          <Route path='/clan' element={<ClanComponent />} />
-          <Route path='/player' element={<PlayerComponent />} />
-          <Route path='/clanMember' element={<Members />} />
+          <Route path='/' exact={true} element={<LoginComponents />} />
+          <Route path='/clan' exact={true} element={<ClanComponent />} />
+          <Route path='/player' exact={true} element={<PlayerComponent />} />
+          <Route path='/clanMember' exact={true} element={<Members />} />
       </Routes>
     </BrowserRouter>
   );
