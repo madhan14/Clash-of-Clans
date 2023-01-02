@@ -5,6 +5,11 @@ import './PlayerComponent.css';
 import { env } from "../../environment/environment";
 
 const Player: React.FC = () => {
+
+    if(!localStorage.getItem('playerID')){
+        window.location.href = '/';
+    }
+
     const [player, setPlayer] = useState<any>();
     const [activeTabKey, setActiveTabKey] = useState<string>('About You');
 
@@ -215,24 +220,24 @@ const Player: React.FC = () => {
                 setPlayer(response.data);
             })
     }, [])
-
-    return(
-        <>
-            <Card
-                style={{ width: '100%' }}
-                title={player?.name}
-                tabList={tabList}
-                activeTabKey={activeTabKey}
-                onTabChange={(key) => {
-                    onTabChange(key);
-                }}
-                extra={<a href="/clan">Clan</a>}
-            >
-                {contentList[activeTabKey]}
-            </Card>
-        </>
-    );
-
+   
+        return(
+            <>
+                <Card
+                    style={{ width: '100%' }}
+                    title={player?.name}
+                    tabList={tabList}
+                    activeTabKey={activeTabKey}
+                    onTabChange={(key) => {
+                        onTabChange(key);
+                    }}
+                    extra={<a href="/clan">Clan</a>}
+                >
+                    { player ? contentList[activeTabKey] : '' }
+                </Card>
+            </>
+        );
+    
 };
 
 export default Player;

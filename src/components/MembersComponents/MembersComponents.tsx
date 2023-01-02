@@ -6,7 +6,12 @@ import { useSearchParams } from "react-router-dom";
 import { env } from "../../environment/environment";
 
 const Members: React.FC = () => {
-    const [player, setPlayer] = useState<any>();
+
+    if(!localStorage.getItem('playerID')){
+        window.location.href = '/';
+    }
+    
+    const [member, setMember] = useState<any>();
     const [activeTabKey, setActiveTabKey] = useState<string>('About You');
     const [searchParams] = useSearchParams();
 
@@ -39,67 +44,67 @@ const Members: React.FC = () => {
                     {
                         key: '1',
                         name: 'Name',
-                        value: player?.name,
+                        value: member?.name,
                     },
                     {
                         key: '2',
                         name: 'Role',
-                        value: String(player?.role).toUpperCase(),
+                        value: String(member?.role).toUpperCase(),
                     },
                     {
                         key: '3',
                         name: 'Experience Level',
-                        value: player?.expLevel,
+                        value: member?.expLevel,
                     },
                     {
                         key: '4',
                         name: 'Town Hall',
-                        value: player?.townHallLevel,
+                        value: member?.townHallLevel,
                     },
                     {
                         key: '5',
                         name: 'League',
-                        value: player?.league.name,
+                        value: member?.league.name,
                     },
                     {
                         key: '6',
                         name: 'Heighest Town Hall Trophies',
-                        value: player?.bestTrophies,
+                        value: member?.bestTrophies,
                     },
                     {
                         key: '7',
                         name: 'Current Town Hall Trophies',
-                        value: player?.trophies,
+                        value: member?.trophies,
                     },
                     {
                         key: '8',
                         name: 'Builder Hall',
-                        value: player?.builderHallLevel,
+                        value: member?.builderHallLevel,
                     },
                     {
                         key: '9',
                         name: 'Heighest Builder Hall Trophies',
-                        value: player?.bestVersusTrophies,
+                        value: member?.bestVersusTrophies,
                     },
                     {
                         key: '10',
                         name: 'Current Builder Hall Trophies',
-                        value: player?.versusTrophies,
+                        value: member?.versusTrophies,
                     },
                     {
                         key: '11',
                         name: 'Clan Capital Contributions',
-                        value: player?.clanCapitalContributions,
+                        value: member?.clanCapitalContributions,
                     },
                     {
                         key: '12',
                         name: 'Clan Name',
-                        value: player?.clan.name,
+                        value: member?.clan.name,
                     },
                     {
                         key: '13',
                         name: 'Clan Level',
-                        value: player?.clan.clanLevel,
+                        value: member?.clan.clanLevel,
                     },
                 ]}
 
@@ -117,7 +122,7 @@ const Members: React.FC = () => {
                 ]}
             />,
         Achievements: <Table
-                        dataSource={player?.achievements}
+                        dataSource={member?.achievements}
                         columns = {[
                             {
                                 title: 'Achievement Name',
@@ -142,7 +147,7 @@ const Members: React.FC = () => {
                         ]}
                       />,
         Heroes: <Table
-                    dataSource={player?.heroes}
+                    dataSource={member?.heroes}
                     columns= {[
                         {
                             title: 'Hero Name',
@@ -162,7 +167,7 @@ const Members: React.FC = () => {
                     ]}
                 />,
         Troops: <Table 
-                    dataSource={player?.troops}
+                    dataSource={member?.troops}
                     columns= {[
                         {
                             title: 'Troop Name',
@@ -182,7 +187,7 @@ const Members: React.FC = () => {
                     ]}
                 />,
         Spells: <Table 
-                    dataSource={player?.spells}
+                    dataSource={member?.spells}
                     columns= {[
                         {
                             title: 'Spell Name',
@@ -213,7 +218,7 @@ const Members: React.FC = () => {
                 "PlayerID": searchParams.get('member')
             })
             .then((response) => {
-                setPlayer(response.data);
+                setMember(response.data);
             })
             // eslint-disable-next-line
     }, [])
@@ -222,7 +227,7 @@ const Members: React.FC = () => {
         <>
             <Card
                 style={{ width: '100%' }}
-                title={player?.name}
+                title={member?.name}
                 tabList={tabList}
                 activeTabKey={activeTabKey}
                 onTabChange={(key) => {
@@ -230,7 +235,7 @@ const Members: React.FC = () => {
                 }}
                 extra={<a href="/clan">Clan</a>}
             >
-                {contentList[activeTabKey]}
+                { member ? contentList[activeTabKey] : '' }
             </Card>
         </>
     );

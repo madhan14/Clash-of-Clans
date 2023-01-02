@@ -5,6 +5,11 @@ import { createSearchParams, useNavigate } from "react-router-dom";
 import { env } from "../../environment/environment";
 
 const Player: React.FC = () => {
+
+    if(!localStorage.getItem('playerID')){
+        window.location.href = '/';
+    }
+
     const [clan, setClan] = useState<any>();
     const [activeTabKey, setActiveTabKey] = useState<string>('About Clan');
     const clanID = localStorage.getItem('clanID');
