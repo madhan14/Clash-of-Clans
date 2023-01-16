@@ -216,8 +216,8 @@ const Player: React.FC = () => {
                 "PlayerID": localStorage.getItem('playerID')
             })
             .then((response) => {
-                localStorage.setItem('clanID', response.data?.clan.tag);
-                setPlayer(response.data);
+                localStorage.setItem('clanID', JSON.parse(response.data.player)?.clan.tag);
+                setPlayer(JSON.parse(response.data.player));
             })
     }, [])
    

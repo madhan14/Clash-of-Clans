@@ -11,6 +11,7 @@ const Player: React.FC = () => {
     }
 
     const [clan, setClan] = useState<any>();
+    const [warLog, setWarLog] = useState<any>();
     const [activeTabKey, setActiveTabKey] = useState<string>('About Clan');
     const clanID = localStorage.getItem('clanID');
     const navigate = useNavigate();
@@ -31,6 +32,10 @@ const Player: React.FC = () => {
           key: 'Clan War',
           tab: 'Clan War',
         },
+        // {
+        //   key: 'War Log',
+        //   tab: 'War Log',
+        // },
     ];
       
     const clanMember = (props: any) => {
@@ -228,6 +233,31 @@ const Player: React.FC = () => {
                             },
                         ]}
                     />,
+        // 'War Log': <Table 
+        //                 dataSource={warLog?.items}
+        //                 columns={[
+        //                     {
+        //                         title: 'Clan Level',
+        //                         dataIndex: 'opponent.clanLevel',
+        //                         key: ''
+        //                     },
+        //                     {
+        //                         title: 'Result',
+        //                         dataIndex: 'result',
+        //                         key: 'result'
+        //                     },
+        //                     {
+        //                         title: 'Team Size',
+        //                         dataIndex: 'teamSize',
+        //                         key: 'teamSize'
+        //                     },
+        //                     {
+        //                         title: 'Attack per member',
+        //                         dataIndex: 'attacksPerMember',
+        //                         key: 'attacksPerMember'
+        //                     }
+        //                 ]}
+        //             />
     };
     
     const onTabChange = (key: string) => {
@@ -240,11 +270,12 @@ const Player: React.FC = () => {
                 "ClanID": clanID?.split('#')[1]
             })
             .then((response) => {
-                setClan(response.data);
+                setClan(JSON.parse(response.data.clan));
+                setWarLog(JSON.parse(response.data.warLog));
             })
             // eslint-disable-next-line
     }, [])
-
+    console.log(warLog);
     return(
         <>
             <Card
